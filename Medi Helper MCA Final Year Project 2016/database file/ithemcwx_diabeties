@@ -1,0 +1,259 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.0.24-community-nt
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema ithemcwx_diabeties
+--
+
+CREATE DATABASE IF NOT EXISTS ithemcwx_diabeties;
+USE ithemcwx_diabeties;
+
+--
+-- Definition of table `appointments`
+--
+
+DROP TABLE IF EXISTS `appointments`;
+CREATE TABLE `appointments` (
+  `appt_id` int(11) NOT NULL auto_increment,
+  `appt_patient_id` int(11) NOT NULL,
+  `appt_doctor_id` int(11) NOT NULL,
+  `appt_treatement_id` int(11) NOT NULL,
+  `appt_booked_datetime` varchar(50) default NULL,
+  `appt_notes` varchar(150) default NULL,
+  `appt_status` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`appt_id`),
+  KEY `appt_patient_id` (`appt_patient_id`),
+  KEY `appt_doctor_id` (`appt_doctor_id`),
+  KEY `appt_treatement_id` (`appt_treatement_id`),
+  CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`appt_patient_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`appt_doctor_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `appointments_ibfk_3` FOREIGN KEY (`appt_treatement_id`) REFERENCES `treatements` (`treatm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `appointments`
+--
+
+/*!40000 ALTER TABLE `appointments` DISABLE KEYS */;
+INSERT INTO `appointments` (`appt_id`,`appt_patient_id`,`appt_doctor_id`,`appt_treatement_id`,`appt_booked_datetime`,`appt_notes`,`appt_status`) VALUES 
+ (1,1,3,1,'2016-06-10','please argent give me appointment',1),
+ (2,1,3,2,'2016-06-05','note 3',2),
+ (3,1,3,3,'2016-06-06','note 4\r\n',0),
+ (4,1,6,1,'2016-06-05','note 2',0),
+ (5,1,7,3,'2016-06-01','',0);
+/*!40000 ALTER TABLE `appointments` ENABLE KEYS */;
+
+
+--
+-- Definition of table `contact`
+--
+
+DROP TABLE IF EXISTS `contact`;
+CREATE TABLE `contact` (
+  `contact_id` int(11) NOT NULL auto_increment,
+  `contact_name` varchar(50) default NULL,
+  `contact_email` varchar(100) default NULL,
+  `contact_message` varchar(200) default NULL,
+  `contact_createdone` varchar(50) default NULL,
+  PRIMARY KEY  (`contact_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `contact`
+--
+
+/*!40000 ALTER TABLE `contact` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contact` ENABLE KEYS */;
+
+
+--
+-- Definition of table `post`
+--
+
+DROP TABLE IF EXISTS `post`;
+CREATE TABLE `post` (
+  `post_id` int(11) NOT NULL auto_increment,
+  `post_user_id` int(11) NOT NULL,
+  `post_desc` varchar(60) default NULL,
+  `post_create_datetime` varchar(50) default NULL,
+  PRIMARY KEY  (`post_id`),
+  KEY `post_user_id` (`post_user_id`),
+  CONSTRAINT `post_ibfk_1` FOREIGN KEY (`post_user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `post`
+--
+
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+INSERT INTO `post` (`post_id`,`post_user_id`,`post_desc`,`post_create_datetime`) VALUES 
+ (1,1,'this is patient1 post\r\n','Thu Jun 09 19:57:43 IST 2016'),
+ (2,3,'this is doctore 1 post\r\n','Thu Jun 09 20:27:36 IST 2016');
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+
+
+--
+-- Definition of table `prescription`
+--
+
+DROP TABLE IF EXISTS `prescription`;
+CREATE TABLE `prescription` (
+  `prescription_id` int(50) NOT NULL auto_increment,
+  `prescription_from_date` varchar(255) default NULL,
+  `prescription_to_date` varchar(255) default NULL,
+  `prescription_insulin` varchar(255) default NULL,
+  `prescription_tablet` varchar(250) default NULL,
+  `prescription_number_of_close` varchar(200) default NULL,
+  `prescription_time` varchar(200) default NULL,
+  `prescription_doctore_id` int(11) default NULL,
+  `prescription_patient_id` int(11) default NULL,
+  `prescription_time1` varchar(100) default NULL,
+  `prescription_time2` varchar(100) default NULL,
+  `prescription_time3` varchar(100) default NULL,
+  `prescription_time4` varchar(100) default NULL,
+  PRIMARY KEY  (`prescription_id`),
+  KEY `prescription_doctore_id` (`prescription_doctore_id`),
+  KEY `prescription_patient_id` (`prescription_patient_id`),
+  CONSTRAINT `prescription_ibfk_1` FOREIGN KEY (`prescription_doctore_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `prescription_ibfk_2` FOREIGN KEY (`prescription_patient_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `prescription`
+--
+
+/*!40000 ALTER TABLE `prescription` DISABLE KEYS */;
+INSERT INTO `prescription` (`prescription_id`,`prescription_from_date`,`prescription_to_date`,`prescription_insulin`,`prescription_tablet`,`prescription_number_of_close`,`prescription_time`,`prescription_doctore_id`,`prescription_patient_id`,`prescription_time1`,`prescription_time2`,`prescription_time3`,`prescription_time4`) VALUES 
+ (1,'2016-06-08','2016-06-09','150','crocin',NULL,'1',3,1,'2',NULL,'3',NULL),
+ (2,'2016-06-05','2016-06-06','155','combiflame',NULL,'1',3,2,'2',NULL,'3',NULL),
+ (3,'2016-06-03','2016-06-03','150','avil',NULL,'3',3,1,'1',NULL,'1',NULL),
+ (4,'2016-06-04','2016-06-05','155','disprin',NULL,'4',6,1,'1',NULL,'1',NULL),
+ (5,'2016-06-07','2016-06-07','155','arogan',NULL,'3',7,1,'1',NULL,'1',NULL),
+ (6,'2016-06-06','2016-06-06','150','o-pam',NULL,'3',3,4,'1',NULL,'1',NULL);
+/*!40000 ALTER TABLE `prescription` ENABLE KEYS */;
+
+
+--
+-- Definition of table `report`
+--
+
+DROP TABLE IF EXISTS `report`;
+CREATE TABLE `report` (
+  `rept_id` int(11) NOT NULL auto_increment,
+  `rept_user_id` int(11) NOT NULL,
+  `rept_doctor_id` int(11) NOT NULL,
+  `rept_name` varchar(50) default NULL,
+  `rept_type` varchar(50) default NULL,
+  `rept_desc` varchar(150) default NULL,
+  `rept_createdon` varchar(20) default NULL,
+  `rept_endtime` varchar(20) default NULL,
+  `rept_blood_sugar` varchar(100) default NULL,
+  `rept_card` varchar(100) default NULL,
+  `rept_physical_activity` varchar(100) default NULL,
+  `insulin` varchar(40) default NULL,
+  `rept_starttime` varchar(40) default NULL,
+  PRIMARY KEY  (`rept_id`),
+  KEY `rept_user_id` (`rept_user_id`),
+  KEY `rept_doctor_id` (`rept_doctor_id`),
+  CONSTRAINT `report_ibfk_1` FOREIGN KEY (`rept_user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `report_ibfk_2` FOREIGN KEY (`rept_doctor_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `report`
+--
+
+/*!40000 ALTER TABLE `report` DISABLE KEYS */;
+INSERT INTO `report` (`rept_id`,`rept_user_id`,`rept_doctor_id`,`rept_name`,`rept_type`,`rept_desc`,`rept_createdon`,`rept_endtime`,`rept_blood_sugar`,`rept_card`,`rept_physical_activity`,`insulin`,`rept_starttime`) VALUES 
+ (1,1,3,'report1','Lunch','notes1','2016-06-08','16:00','100','200','yoga','150','12:59'),
+ (2,2,3,'report 2','Break Fast','note 2','2016-06-06','13:00','110','210','run','155','12:52'),
+ (3,1,6,'report 2','Lunch','note 2','2016-06-01','13:45','120','200','walking','','13:01'),
+ (4,1,7,'report 3','Break Fast','note 3','2016-06-06','09:01','110','150','walking','','08:12'),
+ (5,4,3,'report 3','Lunch','note 3','2016-06-02','14:02','120','150','daily workout','155','13:02');
+/*!40000 ALTER TABLE `report` ENABLE KEYS */;
+
+
+--
+-- Definition of table `treatements`
+--
+
+DROP TABLE IF EXISTS `treatements`;
+CREATE TABLE `treatements` (
+  `treatm_id` int(11) NOT NULL auto_increment,
+  `treatm_name` varchar(100) default NULL,
+  PRIMARY KEY  (`treatm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `treatements`
+--
+
+/*!40000 ALTER TABLE `treatements` DISABLE KEYS */;
+INSERT INTO `treatements` (`treatm_id`,`treatm_name`) VALUES 
+ (1,'diabeties 1'),
+ (2,'diabeties 2'),
+ (3,'diabeties 3'),
+ (4,'diabeties 4');
+/*!40000 ALTER TABLE `treatements` ENABLE KEYS */;
+
+
+--
+-- Definition of table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL auto_increment,
+  `user_type` tinyint(2) default NULL,
+  `user_username` varchar(30) default NULL,
+  `user_password` varchar(30) default NULL,
+  `user_email` varchar(50) NOT NULL,
+  `user_profileimg` blob,
+  `user_mobile` varchar(20) default NULL,
+  `user_address` varchar(200) default NULL,
+  `user_res_datetime` datetime default NULL,
+  `online_status` tinyint(4) default NULL,
+  `user_delete_status` tinyint(4) default NULL,
+  `security_questions` varchar(50) default NULL,
+  `security_answers` varchar(50) default NULL,
+  PRIMARY KEY  (`user_id`,`user_email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`user_id`,`user_type`,`user_username`,`user_password`,`user_email`,`user_profileimg`,`user_mobile`,`user_address`,`user_res_datetime`,`online_status`,`user_delete_status`,`security_questions`,`security_answers`) VALUES 
+ (1,1,'patient1','patient','patient1@gmail.com',NULL,'9876545676','indore',NULL,NULL,NULL,'what is your nick name','aayushi'),
+ (2,1,'patient2','patient','patient2@gmail.com',NULL,'9856785648','indore',NULL,NULL,NULL,'what is your favorite color','red'),
+ (3,2,'doctor1','doctor','doctor1@gmail.com',NULL,'9876234577','mumbai',NULL,NULL,NULL,'what is your nick name','sonu'),
+ (4,1,'patient3','patient','patient3@gmail.com',NULL,'9876543455','khargone',NULL,NULL,NULL,'what is your nick name','prisha'),
+ (6,2,'doctor2','doctor','doctor2@gmail.com',NULL,'9876543212','delhi',NULL,NULL,NULL,'what is your favorite fruit','mango'),
+ (7,2,'doctor3','doctor','doctor3@gmail.com',NULL,'98765434','mumbai',NULL,NULL,NULL,'what is your nick name','prinsi'),
+ (8,1,'patient4','patient','patient4@gmail.com',NULL,'9876245768','khargone',NULL,NULL,NULL,'what is your favorite flower','rose');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
